@@ -1,0 +1,28 @@
+.btn {
+    cursor: pointer;
+    padding: .75rem 2.5rem;
+    border-radius: 100px;
+    border: 0;
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    border-top-color: transparent;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+    background: #2ecc71;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: white;
+    font-weight: 600;
+    letter-spacing: .025rem;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    box-shadow: 0px 3px 15px rgba(0,0,0,0.2);
+}

@@ -1,0 +1,55 @@
+.CameraView {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  z-index: 0;
+  height: 100vh;
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+}
+
+.CameraView-viewfinder {
+  max-height: 80%;
+  overflow: hidden;
+  flex-shrink: 0;
+  margin: 0 auto;
+}
+
+.CameraView-video {
+  width: 100%;
+}
+
+.CameraView-canvas {
+  width: 100%;
+}
+
+.CameraView-snapButton {
+  z-index: 2;
+  position: absolute;
+  bottom: 48px;
+  right: 0;
+  left: 0;
+}
+
+.CameraView-snapButton > .ShutterButton {
+  margin: 0 auto;
+}
+
+.CameraView-clearButton {
+  z-index: 2;
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.CameraView-footer {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-items: center;
+  justify-content: center;
+}
