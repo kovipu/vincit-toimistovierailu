@@ -2,7 +2,20 @@ import React from 'react';
 
 import './CameraView.css';
 import ShutterButton from '../common/ShutterButton';
-import IconButton from '../common/IconButton';
+import Webcam from 'react-webcam'
+
+const postScreenshot = async (img, api) => {
+  console.log('posting')
+  const response = await fetch(api, {
+    method: "POST",
+    body: JSON.stringify({ image: img }),
+    headers: {
+      "Content-Type": "application/json"
+    }
+  }).then(r => r.json());
+  return response;
+};
+
 
 class CameraView extends React.Component {
 
@@ -18,36 +31,6 @@ class CameraView extends React.Component {
     }
   }
 
-  createVideoSource = (stream) => {
-    console.log(stream);
-    this.videoRef.current.srcObject = stream;
-  }
-
-  clearPhoto = () => {
-    const { onClear } = this.props;
-    this.setState({photoTaken: false});
-    onClear();
-  }
-
-  takeSnapshot = () => {
-    const { onPhoto } = this.props;
-    const canvas = this.canvasRef.current;
-    const video = this.videoRef.current;
-    canvas.height = video.videoHeight;
-    canvas.width = video.videoWidth;
-    const ctx = canvas.getContext('2d');
-    ctx.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
-
-    // HACK: Bypassing React here to force the image for us.
-    const image = document
-      .getElementById('canvasHack')
-      .toDataURL('image/png');
-    // I'm sorry.
-
-    this.setState({photoTaken: true});
-    onPhoto(image);
-  }
-
   componentDidMount() {
     if (navigator.mediaDevices.getUserMedia) {
       navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
@@ -61,17 +44,40 @@ class CameraView extends React.Component {
   render() {
     const { photoTaken } = this.state;
     const { isLoading } = this.props;
+    
+    const capture = onFetch => () => {
+      const img = webcamRef.current.getScreenshot();
+      onFetch(img);
+    };
+
+    
+    const videoConstraints = {
+      facingMode: "user",
+      width: 512,
+      height: 512
+    };
+    const webcamRef = React.createRef();
+    
+    const updateFaces = async img => {
+      const response = await postScreenshot(img, "/faces");
+      console.log(response.faces);
+    };
 
     const shutterBtn = isLoading
       ? <ShutterButton onClick={() => {}} icon="spinner fa-spin" /> 
-      : <ShutterButton onClick={this.takeSnapshot} icon="camera" /> 
+      : <ShutterButton onClick={() => {
+        capture(updateFaces)()
+      }} icon="camera" /> 
 
     return (
       <div className="CameraView">
         <div className="CameraView-viewfinder">
-          <IconButton hidden={!photoTaken || isLoading} onClick={this.clearPhoto} className="CameraView-clearButton" icon="times" />
-          <canvas hidden={!photoTaken} id="canvasHack" className="CameraView-canvas" ref={this.canvasRef} />
-          <video hidden={photoTaken} className="CameraView-video" autoPlay={true} ref={this.videoRef} />
+          <Webcam
+            audio={false}
+            videoConstraints={videoConstraints}
+            ref={webcamRef}
+            screenshotFormat="image/jpeg"
+          />          
         </div>
         <div className="CameraView-footer">
           {shutterBtn}

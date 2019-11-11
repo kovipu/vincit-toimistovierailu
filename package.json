@@ -5,7 +5,8 @@
   "dependencies": {
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
-    "react-scripts": "3.2.0"
+    "react-scripts": "3.2.0",
+    "react-webcam": "^4.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -28,5 +29,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://10.144.68.104"
+  "proxy": "http://10.144.68.104:8080"
 }
