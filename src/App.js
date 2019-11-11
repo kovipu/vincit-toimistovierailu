@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 
 import CameraView from './CameraView/CameraView'
+import ResultFooter from './ResultFooter/ResultFooter'
 
 function dataURLtoBlob(dataurl) {
   var arr = dataurl.split(','), mime = arr[0].match(/:(.*?);/)[1],
@@ -48,15 +49,27 @@ class App extends Component {
   
   renderCameraView() {
     const { lastResponse, isLoading } = this.state;
-    const { displayName } = lastResponse;
+    const { headwearLikelihood } = lastResponse;
+
+    const onPhoto = res => {
+      this.setState({
+        lastResponse: res[0]
+      })
+    }
+
     return (
       <React.Fragment>
         <div className="App-content">
         <CameraView
           isLoading={isLoading}
-          onClear={this.clearState}
-          onPhoto={this.submitData}/>
+          onClear={() => this.setState({ lastResponse: {} })}
+          onPhoto={onPhoto}/>
         </div>
+        {headwearLikelihood && (
+          <ResultFooter
+            onShowDetails={this.showDetails}
+            label={headwearLikelihood}/>
+        )}
       </React.Fragment>
     )
   }

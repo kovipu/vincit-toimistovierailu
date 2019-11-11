@@ -1,0 +1,36 @@
+.ResultFooter {
+  padding: 1rem;
+  font-size: 2rem;
+  background: white;
+  color: black;
+  font-weight: 600;
+  position: absolute;
+  bottom: 0px;
+  left: 0px;
+  right: 0px;
+  animation: slideIn .1s ease-out;
+  min-height: 100px;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+}
+
+.ResultFooter-title {
+  margin-bottom: 8px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  align-content: center;
+}
+
+.ResultFooter-title > i {
+  margin-left: 10px;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(100px);
+  }
+
+  100% {
+    transform: translateY(0px);
+  }
+}

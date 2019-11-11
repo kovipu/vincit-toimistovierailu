@@ -3,6 +3,8 @@ import React from 'react';
 import './CameraView.css';
 import ShutterButton from '../common/ShutterButton';
 import Webcam from 'react-webcam'
+import IconButton from '../common/IconButton';
+
 
 const postScreenshot = async (img, api) => {
   console.log('posting')
@@ -43,7 +45,7 @@ class CameraView extends React.Component {
 
   render() {
     const { photoTaken } = this.state;
-    const { isLoading } = this.props;
+    const { isLoading, onClear } = this.props;
     
     const capture = onFetch => () => {
       const img = webcamRef.current.getScreenshot();
@@ -60,7 +62,7 @@ class CameraView extends React.Component {
     
     const updateFaces = async img => {
       const response = await postScreenshot(img, "/faces");
-      console.log(response.faces);
+      this.props.onPhoto(response.faces);
     };
 
     const shutterBtn = isLoading
@@ -72,6 +74,8 @@ class CameraView extends React.Component {
     return (
       <div className="CameraView">
         <div className="CameraView-viewfinder">
+          <IconButton hidden={false} onClick={onClear} className="CameraView-clearButton" icon="times" />
+
           <Webcam
             audio={false}
             videoConstraints={videoConstraints}
